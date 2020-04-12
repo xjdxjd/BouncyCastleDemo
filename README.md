@@ -1,5 +1,5 @@
 # BouncyCastleDemo
-java使用BouncyCastle包
+java使用BouncyCastle包举例，
 包括：
 1. 消息摘要算法举例；
 2. 对称密钥算法密钥生成及举例；
