@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>symmkey</title>
+    <link rel="shortcut icon" href="favicon.ico" th:href="@{/favicon.ico}">
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css" th:href="@{/webjars/layui/2.5.6/css/layui.css}"/>
+</head>
+<body>
+    <div class="layui-container">
+        <div class="layui-col-sm12">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>MD5</legend>
+            </fieldset>
+            <div class="layui-col-sm12">
+                <form class="layui-form layui-form-pane" id="form_MD5">
+                    <div class="layui-form-item layui-col-sm3 layui-col-sm-offset9">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="digest_md5" value="生成摘要">
+                        <input type="reset" class="layui-btn" value="清空表单">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">明文：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="info_md5" name="">
+这是一段摘要示例明文：
+全书共十二章，讲述了关于宇宙本性的最前沿知识，包括：我们的宇宙图像、空间和时间、膨胀的宇宙、不确定性原理、黑洞、宇宙的起源和命运等内容，深入浅出地介绍了遥远星系、黑洞、粒子、反物质等知识，并对宇宙的起源、空间和时间以及相对论等古老命题进行了阐述。
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">摘要：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="digest_md5" name=""></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>SHA1</legend>
+            </fieldset>
+            <div class="layui-col-sm12">
+                <form class="layui-form layui-form-pane" id="form_sha1">
+                    <div class="layui-form-item layui-col-sm3 layui-col-sm-offset9">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="digest_sha1" value="生成摘要">
+                        <input type="reset" class="layui-btn" value="清空表单">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">明文：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="info_sha1" name="">
+这是一段摘要示例明文：
+全书共十二章，讲述了关于宇宙本性的最前沿知识，包括：我们的宇宙图像、空间和时间、膨胀的宇宙、不确定性原理、黑洞、宇宙的起源和命运等内容，深入浅出地介绍了遥远星系、黑洞、粒子、反物质等知识，并对宇宙的起源、空间和时间以及相对论等古老命题进行了阐述。
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">摘要：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="digest_sha1" name=""></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>SHA224</legend>
+            </fieldset>
+            <div class="layui-col-sm12">
+                <form class="layui-form layui-form-pane" id="form_sha224">
+                    <div class="layui-form-item layui-col-sm3 layui-col-sm-offset9">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="digest_sha224" value="生成摘要">
+                        <input type="reset" class="layui-btn" value="清空表单">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">明文：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="info_sha224" name="">
+这是一段摘要示例明文：
+全书共十二章，讲述了关于宇宙本性的最前沿知识，包括：我们的宇宙图像、空间和时间、膨胀的宇宙、不确定性原理、黑洞、宇宙的起源和命运等内容，深入浅出地介绍了遥远星系、黑洞、粒子、反物质等知识，并对宇宙的起源、空间和时间以及相对论等古老命题进行了阐述。
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">摘要：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="digest_sha224" name=""></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>SHA256</legend>
+            </fieldset>
+            <div class="layui-col-sm12">
+                <form class="layui-form layui-form-pane" id="form_sha256">
+                    <div class="layui-form-item layui-col-sm3 layui-col-sm-offset9">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="digest_sha256" value="生成摘要">
+                        <input type="reset" class="layui-btn" value="清空表单">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">明文：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="info_sha256" name="">
+这是一段摘要示例明文：
+全书共十二章，讲述了关于宇宙本性的最前沿知识，包括：我们的宇宙图像、空间和时间、膨胀的宇宙、不确定性原理、黑洞、宇宙的起源和命运等内容，深入浅出地介绍了遥远星系、黑洞、粒子、反物质等知识，并对宇宙的起源、空间和时间以及相对论等古老命题进行了阐述。
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">摘要：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="digest_sha256" name=""></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>SHA384</legend>
+            </fieldset>
+            <div class="layui-col-sm12">
+                <form class="layui-form layui-form-pane" id="form_sha384">
+                    <div class="layui-form-item layui-col-sm3 layui-col-sm-offset9">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="digest_sha384" value="生成摘要">
+                        <input type="reset" class="layui-btn" value="清空表单">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">明文：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="info_sha384" name="">
+这是一段摘要示例明文：
+全书共十二章，讲述了关于宇宙本性的最前沿知识，包括：我们的宇宙图像、空间和时间、膨胀的宇宙、不确定性原理、黑洞、宇宙的起源和命运等内容，深入浅出地介绍了遥远星系、黑洞、粒子、反物质等知识，并对宇宙的起源、空间和时间以及相对论等古老命题进行了阐述。
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">摘要：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="digest_sha384" name=""></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>SHA512</legend>
+            </fieldset>
+            <div class="layui-col-sm12">
+                <form class="layui-form layui-form-pane" id="form_sha512">
+                    <div class="layui-form-item layui-col-sm3 layui-col-sm-offset9">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="digest_sha512" value="生成摘要">
+                        <input type="reset" class="layui-btn" value="清空表单">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">明文：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="info_sha512" name="">
+这是一段摘要示例明文：
+全书共十二章，讲述了关于宇宙本性的最前沿知识，包括：我们的宇宙图像、空间和时间、膨胀的宇宙、不确定性原理、黑洞、宇宙的起源和命运等内容，深入浅出地介绍了遥远星系、黑洞、粒子、反物质等知识，并对宇宙的起源、空间和时间以及相对论等古老命题进行了阐述。
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">摘要：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="digest_sha512" name=""></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="js/jquery-3.4.0.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
+<script type="text/javascript" src="layui/layui.js" th:src="@{/webjars/layui/2.5.6/layui.js}"></script>
+<script type="text/javascript">
+    var code_seccuss = 0;
+    layui.use(['form','layer'], function () {
+        var form = layui.form,
+            layer = layui.layer;
+
+        //监听提交
+        form.on('submit(digest_md5)', function(data){
+            $.post({
+                url:'[[@{/digest/md5}]]/'+$('#info_md5').val(),
+                dataType: 'json',
+                success: function (res) {
+                    if(res.code == code_seccuss){
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                        $('#digest_md5').text(res.data.digestContent);
+                    }else{
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                    }
+                },
+                error: function (res) {
+                    layer.msg('code: '+res.code+', message: '+res.message);
+                }
+            });
+            return false;
+        });
+
+        //监听提交
+        form.on('submit(digest_sha1)', function(data){
+            $.post({
+                url:'[[@{/digest/sha1}]]/'+$('#info_md5').val(),
+                dataType: 'json',
+                success: function (res) {
+                    if(res.code == code_seccuss){
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                        $('#digest_sha1').text(res.data.digestContent);
+                    }else{
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                    }
+                },
+                error: function (res) {
+                    layer.msg('code: '+res.code+', message: '+res.message);
+                }
+            });
+            return false;
+        });
+
+        //监听提交
+        form.on('submit(digest_sha224)', function(data){
+            $.post({
+                url:'[[@{/digest/sha224}]]/'+$('#info_md5').val(),
+                dataType: 'json',
+                success: function (res) {
+                    if(res.code == code_seccuss){
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                        $('#digest_sha224').text(res.data.digestContent);
+                    }else{
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                    }
+                },
+                error: function (res) {
+                    layer.msg('code: '+res.code+', message: '+res.message);
+                }
+            });
+            return false;
+        });
+
+        //监听提交
+        form.on('submit(digest_sha256)', function(data){
+            $.post({
+                url:'[[@{/digest/sha256}]]/'+$('#info_md5').val(),
+                dataType: 'json',
+                success: function (res) {
+                    if(res.code == code_seccuss){
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                        $('#digest_sha256').text(res.data.digestContent);
+                    }else{
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                    }
+                },
+                error: function (res) {
+                    layer.msg('code: '+res.code+', message: '+res.message);
+                }
+            });
+            return false;
+        });
+
+        //监听提交
+        form.on('submit(digest_sha384)', function(data){
+            $.post({
+                url:'[[@{/digest/sha384}]]/'+$('#info_md5').val(),
+                dataType: 'json',
+                success: function (res) {
+                    if(res.code == code_seccuss){
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                        $('#digest_sha384').text(res.data.digestContent);
+                    }else{
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                    }
+                },
+                error: function (res) {
+                    layer.msg('code: '+res.code+', message: '+res.message);
+                }
+            });
+            return false;
+        });
+
+        //监听提交
+        form.on('submit(digest_sha512)', function(data){
+            $.post({
+                url:'[[@{/digest/sha512}]]/'+$('#info_md5').val(),
+                dataType: 'json',
+                success: function (res) {
+                    if(res.code == code_seccuss){
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                        $('#digest_sha512').text(res.data.digestContent);
+                    }else{
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                    }
+                },
+                error: function (res) {
+                    layer.msg('code: '+res.code+', message: '+res.message);
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
+</html>

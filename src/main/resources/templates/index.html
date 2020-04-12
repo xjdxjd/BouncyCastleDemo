@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title>bouncyCastle-学习</title>
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.css" th:href="@{/webjars/layui/2.5.6/css/layui.css}"/>
+		<link rel="stylesheet" type="text/css" href="css/index.css" th:href="@{/css/index.css}">
+	</head>
+	<body>
+		<div class="layui-header">
+			<ul class="layui-nav">
+				<li class="layui-nav-item">
+					<a href="javascript:;">
+						<i class="layui-icon">&#xe663;</i>
+						密钥算法相关功能
+					</a>
+					<dl class="layui-nav-child">
+						<dd>
+<!--							<a class="itemA" href="javascript:loadDigest('摘要算法');">-->
+							<a class="itemA" href="javascript:;">
+								<i class="layui-icon">&#xe66e;</i>
+								摘要算法
+							</a>
+						</dd>
+						<dd>
+							<a class="itemA" href="javascript:loadSymmKey('对称密钥算法');">
+								<i class="layui-icon">&#xe66e;</i>
+								对称密钥算法
+							</a>
+						</dd>
+						<dd>
+							<a class="itemA" href="javascript:loadAsymmetric('不对称密钥算法');">
+								<i class="layui-icon">&#xe66e;</i>
+								不对称密钥算法
+							</a>
+						</dd>
+						<dd>
+							<a class="itemA" href="javascript:loadInfoDigest('消息摘要');">
+								<i class="layui-icon">&#xe66e;</i>
+								消息摘要
+							</a>
+						</dd>
+						<dd>
+							<a class="itemA" href="javascript:loadSymmkeyEncAndDec('对称密钥加解密');">
+								<i class="layui-icon">&#xe66e;</i>
+								对称密钥加解密
+							</a>
+						</dd>
+						<dd>
+							<a class="itemA" href="javascript:loadAsymmkeyEncAndDec('不对称密钥加解密');">
+								<i class="layui-icon">&#xe66e;</i>
+								不对称密钥加解密
+							</a>
+						</dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;">
+						<i class="layui-icon">&#xe714;</i>
+						证书相关功能
+					</a>
+					<dl class="layui-nav-child">
+						<dd>
+							<a class="itemA" href="javascript:loadCertGenerate('生成证书（.cer, .crt）');">
+								<i class="layui-icon">&#xe66e;</i>
+								生成证书（.cer, .crt）
+							</a>
+						</dd>
+						<dd>
+							<a class="itemA" href="javascript:loadCertParse('解析证书（.cer, .crt）');">
+								<i class="layui-icon">&#xe66e;</i>
+								解析证书（.cer, .crt）
+							</a>
+						</dd>
+						<dd>
+							<a class="itemA" href="javascript:loadCertChainGenerate('生成证书链（.p7b）');">
+								<i class="layui-icon">&#xe66e;</i>
+								生成证书链（.p7b）
+							</a>
+						</dd>
+						<dd>
+							<a class="itemA" href="javascript:loadCertChainParse('解析证书链（.p7b）');">
+								<i class="layui-icon">&#xe66e;</i>
+								解析证书链（.p7b）
+							</a>
+						</dd>
+						<dd>
+							<a class="itemA" href="javascript:loadCrlGenerate('生成证书吊销列表（.crl）');">
+								<i class="layui-icon">&#xe66e;</i>
+								生成证书吊销列表（.crl）
+							</a>
+						</dd>
+						<dd>
+							<a class="itemA" href="javascript:loadCrlParse('解析证书吊销列表（.crl）');">
+								<i class="layui-icon">&#xe66e;</i>
+								解析证书吊销列表（.crl）
+							</a>
+						</dd>
+					</dl>
+				</li>
+				<span id="presentPage" class="layui-nav-item"></span>
+			</ul>
+		</div>
+		<iframe id="content" class="content" frameborder="0"></iframe>
+	</body>
+	<script type="text/javascript" src="js/jquery-3.4.0.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
+	<script type="text/javascript" src="layui/layui.js" th:src="@{/webjars/layui/2.5.6/layui.js}"></script>
+	<script type="text/javascript" src="js/index.js" th:src="@{/js/index.js}"></script>
+	<script type="text/javascript">
+		layui.use('element', function(){
+		  var element = layui.element;
+		  
+		  //…
+		});
+	</script>
+</html>

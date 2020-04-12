@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="shortcut icon" href="favicon.ico" th:href="@{/favicon.ico}">
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css" th:href="@{/webjars/layui/2.5.6/css/layui.css}"/>
+</head>
+<body>
+    <div class="layui-container">
+        <div class="layui-col-sm12">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>AES</legend>
+            </fieldset>
+            <div class="layui-col-sm12">
+                <form class="layui-form layui-form-pane" id="form_aes">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密钥：</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="aesKey" class="layui-input" name="key">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-col-sm5 layui-col-sm-offset7">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="gen_key_aes" value="生成密钥">
+                        <input type="reset" class="layui-btn" lay-submit lay-filter="eny_info_aes" value="加密信息">
+                        <input type="reset" class="layui-btn" lay-submit lay-filter="dey_info_aes" value="解密信息">
+                        <input type="reset" class="layui-btn" value="清空表单">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">明文：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="encode_AES" name=""></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密文：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="decode_AES" name=""></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>DES</legend>
+            </fieldset>
+            <div class="layui-col-sm12">
+                <form class="layui-form layui-form-pane" id="form_des">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密钥：</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="desKey" class="layui-input" name="key">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-col-sm5 layui-col-sm-offset7">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="gen_key_aes" value="生成密钥">
+                        <input type="reset" class="layui-btn" lay-submit lay-filter="eny_info_aes" value="加密信息">
+                        <input type="reset" class="layui-btn" lay-submit lay-filter="dey_info_aes" value="解密信息">
+                        <input type="reset" class="layui-btn" value="清空表单">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">明文：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="encode_DES" name=""></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密文：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="decode_DES" name=""></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="js/jquery-3.4.0.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
+<script type="text/javascript" src="layui/layui.js" th:src="@{/webjars/layui/2.5.6/layui.js}"></script>
+<script type="text/javascript">
+    var code_seccuss = 0, length;
+    layui.use(['form','layer'], function () {
+        var form = layui.form,
+            layer = layui.layer;
+
+        //监听提交
+        form.on('submit(aes)', function(data){
+            length = $('#form_aes').find($('select[name="length"]')).val();
+            $.get({
+                url:'[[@{/generatekey/aes}]]/'+length,
+                dataType: 'json',
+                success: function (res) {
+                    if(res.code == code_seccuss){
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                        $('#keyData_AES').text(res.data.key);
+                    }else{
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                    }
+                },
+                error: function (res) {
+                    layer.msg('code: '+res.code+', message: '+res.message);
+                }
+            });
+            return false;
+        });
+
+        //监听提交
+        form.on('submit(des)', function(data){
+            length = $('#form_des').find($('select[name="length"]')).val();
+            $.get({
+                url:'[[@{/generatekey/des}]]/'+length,
+                dataType: 'json',
+                success: function (res) {
+                    if(res.code == code_seccuss){
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                        $('#keyData_DES').text(res.data.key);
+                    }else{
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                    }
+                },
+                error: function (res) {
+                    layer.msg('code: '+res.code+', message: '+res.message);
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</html>

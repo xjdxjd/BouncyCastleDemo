@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="shortcut icon" href="favicon.ico" th:href="@{/favicon.ico}">
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css" th:href="@{/webjars/layui/2.5.6/css/layui.css}"/>
+</head>
+<body>
+    <div class="layui-container">
+        <div class="layui-col-sm12">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>AES</legend>
+            </fieldset>
+            <div class="layui-col-sm12">
+                <form class="layui-form layui-form-pane" id="form_aes">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密钥：</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="aesKey" class="layui-input" name="key">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-col-sm5 layui-col-sm-offset7">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="gen_key_aes" value="生成密钥">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="enc_info_aes" value="加密信息">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="dec_info_aes" value="解密信息">
+                        <input type="reset" class="layui-btn" value="清空表单">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">明文：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="encrypt_AES" name="">
+这是一段摘要示例明文：
+全书共十二章，讲述了关于宇宙本性的最前沿知识，包括：我们的宇宙图像、空间和时间、膨胀的宇宙、不确定性原理、黑洞、宇宙的起源和命运等内容，深入浅出地介绍了遥远星系、黑洞、粒子、反物质等知识，并对宇宙的起源、空间和时间以及相对论等古老命题进行了阐述。
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密文：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="decrypt_AES" name=""></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>DES</legend>
+            </fieldset>
+            <div class="layui-col-sm12">
+                <form class="layui-form layui-form-pane" id="form_des">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密钥：</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="desKey" class="layui-input" name="key">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-col-sm5 layui-col-sm-offset7">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="gen_key_aes" value="生成密钥">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="enc_info_aes" value="加密信息">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="dec_info_aes" value="解密信息">
+                        <input type="reset" class="layui-btn" value="清空表单">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">明文：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="encrypt_DES" name="">
+这是一段摘要示例明文：
+全书共十二章，讲述了关于宇宙本性的最前沿知识，包括：我们的宇宙图像、空间和时间、膨胀的宇宙、不确定性原理、黑洞、宇宙的起源和命运等内容，深入浅出地介绍了遥远星系、黑洞、粒子、反物质等知识，并对宇宙的起源、空间和时间以及相对论等古老命题进行了阐述。
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密文：</label>
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="decrypt_DES" name=""></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="js/jquery-3.4.0.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
+<script type="text/javascript" src="layui/layui.js" th:src="@{/webjars/layui/2.5.6/layui.js}"></script>
+<script type="text/javascript">
+    var code_seccuss = 0, key, protext, ciptext;
+    layui.use(['form','layer'], function () {
+        var form = layui.form,
+            layer = layui.layer;
+
+        //监听提交
+        form.on('submit(gen_key_aes)', function(data){
+            length = 128;
+            $.get({
+                url:'[[@{/generatekey/aes/}]]'+length,
+                dataType: 'json',
+                success: function (res) {
+                    if(res.code == code_seccuss){
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                        $('#aesKey').val(res.data.key);
+                    }else{
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                    }
+                },
+                error: function (res) {
+                    layer.msg('code: '+res.code+', message: '+res.message);
+                }
+            });
+            return false;
+        });
+
+        //监听提交
+        form.on('submit(enc_info_aes)', function(data){
+            key = $('#aesKey').val();
+            protext = $('#encrypt_AES').text();
+            if(key == null || key == ''){layer.msg('密钥未生成，请先生成密钥！');return false;}
+            if(protext == null || protext == ''){layer.msg('明文消息未填写，请先填写明文消息！');return false;}
+            $.post({
+                url:'[[@{/encrypt/aes}]]',
+                data:{
+                    'key': $('#aesKey').val(),
+                    'protext': $('#encrypt_AES').text()
+                },
+                dataType: 'json',
+                success: function (res) {
+                    if(res.code == code_seccuss){
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                        $('#decrypt_AES').text(res.data.ciphertext);
+                    }else{
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                    }
+                },
+                error: function (res) {
+                    layer.msg('code: '+res.code+', message: '+res.message);
+                }
+            });
+            return false;
+        });
+
+        //监听提交
+        form.on('submit(dec_info_aes)', function(data){
+            $.post({
+                url:'[[@{/decrypt/aes}]]',
+                data:{
+                    'key': $('#aesKey').val(),
+                    'protext': $('#decrypt_AES').text()
+                },
+                dataType: 'json',
+                success: function (res) {
+                    if(res.code == code_seccuss){
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                        $('#encrypt_AES').text(res.data.ciphertext);
+                    }else{
+                        layer.msg('code: '+res.code+', message: '+res.message);
+                    }
+                },
+                error: function (res) {
+                    layer.msg('code: '+res.code+', message: '+res.message);
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</html>

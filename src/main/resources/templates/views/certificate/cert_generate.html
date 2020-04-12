@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.css" th:href="@{/webjars/layui/2.5.6/css/layui.css}"/>
+		<link rel="stylesheet" type="text/css" href="css/certgenerate.css" th:href="@{/css/certgenerate.css}"/>
+	</head>
+	<body>
+		<div class="layui-container">
+			<form class="layui-form">
+				<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+					<legend>生成cer证书</legend>
+				</fieldset>
+				<div class="layui-col-sm6">
+					<div class="layui-form-item">
+						<label class="layui-form-label">颁发者:</label>
+						<div class="layui-input-block">
+							<input type="text" name="issuerName" placeholder="issuerName" lay-verify="issuerName" lay-verType="tips" class="layui-input" value="DN=ROOTCA">
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-sm6">
+					<div class="layui-form-item">
+						<label class="layui-form-label">使用者:</label>
+						<div class="layui-input-block">
+							<input type="text" name="subjectName" placeholder="subjectName" lay-verify="subjectName" lay-verType="tips" class="layui-input" value="DN=TESTCA">
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-sm12">
+					<div class="layui-col-sm6">
+						<div class="layui-form-item">
+							<label class="layui-form-label">证书算法:</label>
+							<div class="layui-input-block">
+								<select name="algorithm" lay-verify="algorithm">
+									<option value="0" selected>SM2</option>
+									<option value="1">RSA</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-sm6">
+					<div class="layui-form-item">
+						<label class="layui-form-label">生效日期:</label>
+						<div class="layui-input-block">
+							<input type="text" name="notBeforeDate" id="notBeforeDate" lay-verify="notBeforeDate" lay-verType="tips" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" value="2020-04-05">
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-sm6">
+					<div class="layui-form-item">
+						<label class="layui-form-label">有效期:</label>
+						<div class="layui-input-block">
+							<select name="notAfterDate" lay-verify="notAfterDate">
+								<option value="1" selected>1年</option>
+								<option value="3">3年</option>
+								<option value="5">5年</option>
+								<option value="10">10年</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-sm4 layui-col-sm-offset8">
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button class="layui-btn layui-btn-normal" lay-submit lay-filter="certform">生成证书</button>
+							<button type="reset"  class="layui-btn layui-btn-primary" lay-submit lay-filter="formDemo">重置表单</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="layui-container">
+			<textarea id="certdata" name="certdata" class="layui-col-sm12" rows="20"></textarea>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/jquery-3.4.0.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
+	<script type="text/javascript" src="layui/layui.js" th:src="@{/webjars/layui/2.5.6/layui.all.js}"></script>
+	<script>
+		layui.use(['form', 'laydate'],function(){
+			var form = layui.form,
+				laydate = layui.laydate;
+
+			//日期
+			laydate.render({
+				elem: '#notBeforeDate'
+			});
+			//日期
+			laydate.render({
+				elem: '#notAfterDate'
+			});
+
+			// 表单验证
+			form.verify({
+				issuerName: function(value, item){
+					if(null == value || '' == value){
+						return '请填写颁发者信息！';
+					}
+					if(value.length < 6 || value.length > 20){
+						return '颁发者信息长度为6-20！';
+					}
+				},
+				subjectName: function(value, item){
+					if(null == value || '' == value){
+						return '请填写使用者信息！';
+					}
+					if(value.length < 6 || value.length > 20){
+						return '使用者信息长度为6-20！';
+					}
+				},
+				notBeforeDate: function(value, item){
+
+					if(null == value || '' == value){
+						return '请选择证书生效日期！';
+					}
+				}
+			});
+			//监听提交
+			form.on('submit(certform)', function(data){
+				layer.msg(JSON.stringify(data.field));
+				return false;
+			});
+		});
+	</script>
+</html>
