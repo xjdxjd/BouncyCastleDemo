@@ -36,6 +36,7 @@ public class KeyController extends BaseController {
             symmKey = KeyUtils.generateKey(length,ALGORITHM_AES);
 
         } catch (NoSuchAlgorithmException e){
+
             e.printStackTrace();
             return result.error(NOSUCHALGORITHMEXCEPTION_CODE,NOSUCHALGORITHMEXCEPTION_MESSAGE,e);
         } catch (UnsupportedEncodingException e){
@@ -72,13 +73,13 @@ public class KeyController extends BaseController {
 
 /*====================================================================================================================*/
     /**
-     * @Method: generateKeyForAES   DESC:   生成AES密钥
+     * @Method: encryptForAES   DESC:   AES加密
      */
     @PostMapping("/encrypt/aes")
     public Result encryptForAES(@RequestParam("key") String key, @RequestParam("protext") String protext, HttpSession session){
         SecretKey secretkey = (SecretKey) session.getAttribute("aesKey");
 
-        System.out.println("==================eeeeeee==================");
+
         if(ObjectUtils.isEmpty(secretkey)){
             return result.failed("密钥未生成或生成失败，请重新生成！");
         }
@@ -89,7 +90,7 @@ public class KeyController extends BaseController {
         SymmKeyResult symmKey = null;
         try {
 
-            symmKey = KeyUtils.encryptByAES(ALGORITHM_AES, secretkey, protext);
+            symmKey = KeyUtils.encryptByAES(secretkey, protext);
 
         } catch (NoSuchPaddingException e){
 
@@ -127,28 +128,31 @@ public class KeyController extends BaseController {
 
             e.printStackTrace();
             return result.error(UNSUPPORTEDENCODINGEXCEPTION_CODE,UNSUPPORTEDENCODINGEXCEPTION_MESSAGE,e);
+        } catch (Exception e){
+
+            e.printStackTrace();
+            return result.error(-1,"",e);
         }
         return result.success(symmKey);
     }
     /**
-     * @Method: generateKeyForAES   DESC:   生成AES密钥
+     * @Method: decryptForAES   DESC:   AES解密
      */
     @PostMapping("/decrypt/aes")
-    public Result decryptForAES(@RequestParam("key") String key,@RequestParam("protext") String protext, HttpSession session){
+    public Result decryptForAES(@RequestParam("key") String key,@RequestParam("ciptext") String ciptext, HttpSession session){
         SecretKey secretkey = (SecretKey) session.getAttribute("aesKey");
 
-        System.out.println("==================ddddddd==================");
         if(ObjectUtils.isEmpty(secretkey)){
             return result.failed("密钥未生成或生成失败，请重新生成！");
         }
-        if(StringUtils.isEmpty(protext) || StringUtils.isEmpty(key)){
+        if(StringUtils.isEmpty(ciptext) || StringUtils.isEmpty(key)){
             return result.failed("参数为空！");
         }
 
         SymmKeyResult symmKey = null;
         try {
 
-            symmKey = KeyUtils.decryptByAES(ALGORITHM_AES, secretkey, protext);
+            symmKey = KeyUtils.decryptByAES(secretkey, ciptext);
 
         } catch (NoSuchPaddingException e){
 
@@ -186,6 +190,10 @@ public class KeyController extends BaseController {
 
             e.printStackTrace();
             return result.error(UNSUPPORTEDENCODINGEXCEPTION_CODE,UNSUPPORTEDENCODINGEXCEPTION_MESSAGE,e);
+        } catch (Exception e){
+
+            e.printStackTrace();
+            return result.error(-1,"",e);
         }
         return result.success(symmKey);
     }

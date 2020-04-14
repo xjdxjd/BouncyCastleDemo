@@ -89,12 +89,18 @@ public class CommonUtils {
     /**
      * @Method: generateIV   DESC:   生成算法参数
      */
-    public static AlgorithmParameters generateIV(String algName) throws NoSuchAlgorithmException, InvalidParameterSpecException {
+    public static AlgorithmParameters generateIV(String algName) {
         //iv 为一个 16 字节的数组，这里采用和 iOS 端一样的构造方法，数据全为0
-        byte[] iv = new byte[16];
-        Arrays.fill(iv, (byte) 0x00);
-        AlgorithmParameters params = AlgorithmParameters.getInstance(algName);
-        params.init(new IvParameterSpec(iv));
+        AlgorithmParameters params = null;
+        try{
+
+            byte[] iv = new byte[16];
+            Arrays.fill(iv, (byte) 0x00);
+            AlgorithmParameters.getInstance(algName);
+            params.init(new IvParameterSpec(iv));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return params;
     }
 }

@@ -6,13 +6,24 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Base64;
 
 import javax.crypto.*;
+import javax.crypto.spec.IvParameterSpec;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
 import java.security.spec.InvalidParameterSpecException;
+import java.util.Arrays;
+
 public class KeyUtils {
 
 
     private final static String PROVIDER = "BC";
+    private final static String ALGORITHM_AES = "AES";
+    private final static String ALGORITHM_DES = "DES";
+//    private final static AlgorithmParameters iv = CommonUtils.generateIV("AES");
+
+    static{
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
+    }
     /**
      * @Method: generateKey   DESC:   生成对称密钥 --用于反显
      */
@@ -26,8 +37,8 @@ public class KeyUtils {
         //  生成密钥
         SecretKey secretKey = keyGenerate.generateKey();
         //  密钥转码    byte[] --> 16进制字符串
-        byte[] encoded = secretKey.getEncoded();
-        String key = new String(encoded,"utf-8");
+        byte[] keybytes = secretKey.getEncoded();
+        String key = new Base64().toBase64String(keybytes);
 
         symmKey = new SymmKeyResult(key,secretKey);
         return symmKey;
@@ -51,63 +62,40 @@ public class KeyUtils {
     /**
      * @Method: encryptByAES   DESC:   AES加密
      */
-    public static SymmKeyResult encryptByAES(String algName, SecretKey secrekey, String protext)
-            throws  NoSuchPaddingException, NoSuchAlgorithmException,NoSuchProviderException,
-            InvalidParameterSpecException, InvalidAlgorithmParameterException, UnsupportedEncodingException,
-            InvalidKeyException, BadPaddingException,IllegalBlockSizeException {
+    public static SymmKeyResult encryptByAES(SecretKey secrekey, String protext) throws Exception{
 
         SymmKeyResult symmKey = null;
+        String encodeKey = new String(Base64.encode(secrekey.getEncoded()));
 
-        Security.addProvider(new BouncyCastleProvider());
-        AlgorithmParameters iv = CommonUtils.generateIV(algName);
+        Cipher cipher = Cipher.getInstance(ALGORITHM_AES,PROVIDER);
+        cipher.init(Cipher.ENCRYPT_MODE, secrekey);
 
-        Cipher cipher = Cipher.getInstance(algName,PROVIDER);
-        cipher.init(Cipher.ENCRYPT_MODE, secrekey, iv);
         byte[] cipbytes = cipher.doFinal(protext.getBytes());
 
-        byte[] encodeKey = Base64.encode(secrekey.getEncoded());
-//        String key = .encodeToString(secrekey.getEncoded());
-        byte[] ciptext = Base64.encode(cipbytes);
-        symmKey = new SymmKeyResult(new String(encodeKey,"utf-8"),secrekey,new String(ciptext));
+        String ciptext = new String(new Base64().encode(cipbytes));
+
+        symmKey = new SymmKeyResult(encodeKey, secrekey, ciptext);
+
         return symmKey;
     }
 
     /**
      * @Method: decryptByAES   DESC:   AES解密
      */
-    public static SymmKeyResult decryptByAES(String algName, SecretKey secrekey, String decrypt)
-            throws NoSuchPaddingException, NoSuchAlgorithmException,NoSuchProviderException,
-            InvalidParameterSpecException, InvalidAlgorithmParameterException, UnsupportedEncodingException,
-            InvalidKeyException, BadPaddingException,IllegalBlockSizeException {
+    public static SymmKeyResult decryptByAES(SecretKey secrekey, String ciptext) throws Exception {
 
-        byte[] debyte = Base64.decode(decrypt);
         SymmKeyResult symmKey = null;
+        String encodeKey = new String(Base64.encode(secrekey.getEncoded()));
+        Cipher cipher = Cipher.getInstance(ALGORITHM_AES,PROVIDER);
+        cipher.init(Cipher.DECRYPT_MODE, secrekey);
 
-        Security.addProvider(new BouncyCastleProvider());
-        AlgorithmParameters iv = CommonUtils.generateIV(algName);
+        byte[] decode = new Base64().decode(ciptext);
+        byte[] cipbytes = cipher.doFinal(decode);
 
-        Cipher cipher = Cipher.getInstance(algName,PROVIDER);
-        cipher.init(Cipher.DECRYPT_MODE, secrekey, iv);
-        byte[] cipbytes = cipher.doFinal(debyte);
-//        System.out.println("====================================================================");
-//        System.out.println("cipbytes.toString():");
-//        System.out.println(cipbytes.toString());
-//        StringBuffer ss = new StringBuffer();
-//        for (byte b:cipbytes) {
-//            ss.append(b);
-//        }
-//        System.out.println("ss.toString():");
-//        System.out.println(ss.toString());
-//        System.out.println("CommonUtils.byteToHexString(cipbytes):");
-//        System.out.println(CommonUtils.byteToHexString(cipbytes));
-//        System.out.println("encoder64.encodeToString(cipbytes):");
-//        System.out.println(encoder64.encodeToString(cipbytes));
-//        System.out.println("====================================================================");
+        String dectext = new String(cipbytes);
 
+        symmKey = new SymmKeyResult(encodeKey,secrekey,dectext);
 
-        byte[] encodeKey = Base64.encode(secrekey.getEncoded());
-        byte[] ciptext = Base64.encode(cipbytes);
-        symmKey = new SymmKeyResult(new String(encodeKey,"utf-8"),secrekey,new String(ciptext));
         return symmKey;
     }
 }

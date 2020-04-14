@@ -29,7 +29,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">明文：</label>
                         <div class=" layui-col-sm12">
-                            <textarea class="layui-textarea" id="encrypt_AES" name="">
+                            <textarea class="layui-textarea ccc" id="encrypt_AES" name="encrypt_AES">
 这是一段摘要示例明文：
 全书共十二章，讲述了关于宇宙本性的最前沿知识，包括：我们的宇宙图像、空间和时间、膨胀的宇宙、不确定性原理、黑洞、宇宙的起源和命运等内容，深入浅出地介绍了遥远星系、黑洞、粒子、反物质等知识，并对宇宙的起源、空间和时间以及相对论等古老命题进行了阐述。
                             </textarea>
@@ -38,7 +38,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">密文：</label>
                         <div class=" layui-col-sm12">
-                            <textarea class="layui-textarea" id="decrypt_AES" name=""></textarea>
+                            <textarea class="layui-textarea" id="decrypt_AES" name="decrypt_AES"></textarea>
                         </div>
                     </div>
                 </form>
@@ -121,13 +121,15 @@
                 url:'[[@{/encrypt/aes}]]',
                 data:{
                     'key': $('#aesKey').val(),
-                    'protext': $('#encrypt_AES').text()
+                    'protext': protext
                 },
                 dataType: 'json',
                 success: function (res) {
                     if(res.code == code_seccuss){
+
                         layer.msg('code: '+res.code+', message: '+res.message);
-                        $('#decrypt_AES').text(res.data.ciphertext);
+                        $('textarea[name="decrypt_AES"]').text(res.data.ciphertext);
+
                     }else{
                         layer.msg('code: '+res.code+', message: '+res.message);
                     }
@@ -141,17 +143,23 @@
 
         //监听提交
         form.on('submit(dec_info_aes)', function(data){
+            key = $('#aesKey').val();
+            ciptext = $('#decrypt_AES').text();
+            if(key == null || key == ''){layer.msg('密钥为空，请正确填写密钥！');return false;}
+            if(ciptext == null || ciptext == ''){layer.msg('密文内容未填写，请先添加密文内容！');return false;}
             $.post({
                 url:'[[@{/decrypt/aes}]]',
                 data:{
                     'key': $('#aesKey').val(),
-                    'protext': $('#decrypt_AES').text()
+                    'ciptext': ciptext
                 },
                 dataType: 'json',
                 success: function (res) {
                     if(res.code == code_seccuss){
+
                         layer.msg('code: '+res.code+', message: '+res.message);
-                        $('#encrypt_AES').text(res.data.ciphertext);
+                        $('textarea[name="encrypt_AES"]').text(res.data.ciphertext);
+
                     }else{
                         layer.msg('code: '+res.code+', message: '+res.message);
                     }
