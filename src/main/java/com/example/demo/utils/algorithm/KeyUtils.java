@@ -44,37 +44,23 @@ public class KeyUtils {
         return symmKey;
     }
 
-    /**
-     * @Method: generateKey   DESC:   生成对称密钥 --用于加密
-     */
-
-    public static SecretKey generateSecretKey( int length,String algName) throws NoSuchAlgorithmException{
-        //  创建密钥生成器
-        KeyGenerator keyGenerate = KeyGenerator.getInstance(algName);
-        //  初始化密钥声生成器
-        keyGenerate.init(length);
-        //  生成密钥
-        SecretKey secretKey = keyGenerate.generateKey();
-        return secretKey;
-    }
-
 /*====================================================================================================================*/
     /**
      * @Method: encryptByAES   DESC:   AES加密
      */
-    public static SymmKeyResult encryptByAES(SecretKey secrekey, String protext) throws Exception{
+    public static SymmKeyResult encryptByAES(SecretKey secretkey, String protext) throws Exception{
 
         SymmKeyResult symmKey = null;
-        String encodeKey = new String(Base64.encode(secrekey.getEncoded()));
+        String encodeKey = new String(Base64.encode(secretkey.getEncoded()));
 
         Cipher cipher = Cipher.getInstance(ALGORITHM_AES,PROVIDER);
-        cipher.init(Cipher.ENCRYPT_MODE, secrekey);
+        cipher.init(Cipher.ENCRYPT_MODE, secretkey);
 
         byte[] cipbytes = cipher.doFinal(protext.getBytes());
 
         String ciptext = new String(new Base64().encode(cipbytes));
 
-        symmKey = new SymmKeyResult(encodeKey, secrekey, ciptext);
+        symmKey = new SymmKeyResult(encodeKey, secretkey, ciptext);
 
         return symmKey;
     }
@@ -82,19 +68,59 @@ public class KeyUtils {
     /**
      * @Method: decryptByAES   DESC:   AES解密
      */
-    public static SymmKeyResult decryptByAES(SecretKey secrekey, String ciptext) throws Exception {
+    public static SymmKeyResult decryptByAES(SecretKey secretkey, String ciptext) throws Exception {
 
         SymmKeyResult symmKey = null;
-        String encodeKey = new String(Base64.encode(secrekey.getEncoded()));
+        String encodeKey = new String(Base64.encode(secretkey.getEncoded()));
         Cipher cipher = Cipher.getInstance(ALGORITHM_AES,PROVIDER);
-        cipher.init(Cipher.DECRYPT_MODE, secrekey);
+        cipher.init(Cipher.DECRYPT_MODE, secretkey);
 
         byte[] decode = new Base64().decode(ciptext);
         byte[] cipbytes = cipher.doFinal(decode);
 
         String dectext = new String(cipbytes);
 
-        symmKey = new SymmKeyResult(encodeKey,secrekey,dectext);
+        symmKey = new SymmKeyResult(encodeKey,secretkey,dectext);
+
+        return symmKey;
+    }
+
+    /**
+     * @Method: encryptByDES   DESC:   DES加密
+     */
+    public static SymmKeyResult encryptByDES(SecretKey secretkey, String protext) throws Exception {
+        SymmKeyResult symmKey = null;
+        String encodeKey = new String(Base64.encode(secretkey.getEncoded()));
+
+        Cipher cipher = Cipher.getInstance(ALGORITHM_DES,PROVIDER);
+        cipher.init(Cipher.ENCRYPT_MODE, secretkey);
+
+        byte[] cipbytes = cipher.doFinal(protext.getBytes());
+
+        String ciptext = new String(new Base64().encode(cipbytes));
+
+        symmKey = new SymmKeyResult(encodeKey, secretkey, ciptext);
+
+
+        return symmKey;
+    }
+
+    /**
+     * @Method: decryptByDES   DESC:   DES解密
+     */
+    public static SymmKeyResult decryptByDES(SecretKey secretkey, String ciptext) throws Exception{
+    SymmKeyResult symmKey = null;
+        String encodeKey = new String(Base64.encode(secretkey.getEncoded()));
+        Cipher cipher = Cipher.getInstance(ALGORITHM_DES,PROVIDER);
+        cipher.init(Cipher.DECRYPT_MODE, secretkey);
+
+        byte[] decode = new Base64().decode(ciptext);
+        byte[] cipbytes = cipher.doFinal(decode);
+
+        String dectext = new String(cipbytes);
+
+        symmKey = new SymmKeyResult(encodeKey,secretkey,dectext);
+
 
         return symmKey;
     }

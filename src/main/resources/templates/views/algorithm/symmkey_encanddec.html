@@ -29,7 +29,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">明文：</label>
                         <div class=" layui-col-sm12">
-                            <textarea class="layui-textarea ccc" id="encrypt_AES" name="encrypt_AES">
+                            <textarea class="layui-textarea ccc" id="encrypt_AES" name="encrypt_AES" rows="10">
 这是一段摘要示例明文：
 全书共十二章，讲述了关于宇宙本性的最前沿知识，包括：我们的宇宙图像、空间和时间、膨胀的宇宙、不确定性原理、黑洞、宇宙的起源和命运等内容，深入浅出地介绍了遥远星系、黑洞、粒子、反物质等知识，并对宇宙的起源、空间和时间以及相对论等古老命题进行了阐述。
                             </textarea>
@@ -38,7 +38,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">密文：</label>
                         <div class=" layui-col-sm12">
-                            <textarea class="layui-textarea" id="decrypt_AES" name="decrypt_AES"></textarea>
+                            <textarea class="layui-textarea" id="decrypt_AES" name="decrypt_AES" rows="10"></textarea>
                         </div>
                     </div>
                 </form>
@@ -57,15 +57,15 @@
                         </div>
                     </div>
                     <div class="layui-form-item layui-col-sm5 layui-col-sm-offset7">
-                        <input type="button" class="layui-btn" lay-submit lay-filter="gen_key_aes" value="生成密钥">
-                        <input type="button" class="layui-btn" lay-submit lay-filter="enc_info_aes" value="加密信息">
-                        <input type="button" class="layui-btn" lay-submit lay-filter="dec_info_aes" value="解密信息">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="gen_key_des" value="生成密钥">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="enc_info_des" value="加密信息">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="dec_info_des" value="解密信息">
                         <input type="reset" class="layui-btn" value="清空表单">
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">明文：</label>
                         <div class=" layui-col-sm12">
-                            <textarea class="layui-textarea" id="encrypt_DES" name="">
+                            <textarea class="layui-textarea" id="encrypt_DES" name="encrypt_DES" rows="10">
 这是一段摘要示例明文：
 全书共十二章，讲述了关于宇宙本性的最前沿知识，包括：我们的宇宙图像、空间和时间、膨胀的宇宙、不确定性原理、黑洞、宇宙的起源和命运等内容，深入浅出地介绍了遥远星系、黑洞、粒子、反物质等知识，并对宇宙的起源、空间和时间以及相对论等古老命题进行了阐述。
                             </textarea>
@@ -74,7 +74,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">密文：</label>
                         <div class=" layui-col-sm12">
-                            <textarea class="layui-textarea" id="decrypt_DES" name=""></textarea>
+                            <textarea class="layui-textarea" id="decrypt_DES" name="decrypt_DES" rows="10"></textarea>
                         </div>
                     </div>
                 </form>
@@ -84,90 +84,61 @@
 </body>
 <script type="text/javascript" src="js/jquery-3.4.0.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
 <script type="text/javascript" src="layui/layui.js" th:src="@{/webjars/layui/2.5.6/layui.js}"></script>
+<script type="text/javascript" src="layui/layui.js" th:src="@{/js/symmkey_encanddec.js}"></script>
 <script type="text/javascript">
-    var code_seccuss = 0, key, protext, ciptext;
+    var code_seccuss = 0, $keyElem, $proElem, $cipElem;
     layui.use(['form','layer'], function () {
         var form = layui.form,
             layer = layui.layer;
 
-        //监听提交
+        //  AES生成key
         form.on('submit(gen_key_aes)', function(data){
-            length = 128;
-            $.get({
-                url:'[[@{/generatekey/aes/}]]'+length,
-                dataType: 'json',
-                success: function (res) {
-                    if(res.code == code_seccuss){
-                        layer.msg('code: '+res.code+', message: '+res.message);
-                        $('#aesKey').val(res.data.key);
-                    }else{
-                        layer.msg('code: '+res.code+', message: '+res.message);
-                    }
-                },
-                error: function (res) {
-                    layer.msg('code: '+res.code+', message: '+res.message);
-                }
-            });
+            $keyElem = $('#aesKey');
+            generateKey('[[@{/generatekey/aes/}]]', 128, $keyElem);
             return false;
         });
 
-        //监听提交
+        //  AES加密
         form.on('submit(enc_info_aes)', function(data){
-            key = $('#aesKey').val();
-            protext = $('#encrypt_AES').text();
-            if(key == null || key == ''){layer.msg('密钥未生成，请先生成密钥！');return false;}
-            if(protext == null || protext == ''){layer.msg('明文消息未填写，请先填写明文消息！');return false;}
-            $.post({
-                url:'[[@{/encrypt/aes}]]',
-                data:{
-                    'key': $('#aesKey').val(),
-                    'protext': protext
-                },
-                dataType: 'json',
-                success: function (res) {
-                    if(res.code == code_seccuss){
-
-                        layer.msg('code: '+res.code+', message: '+res.message);
-                        $('textarea[name="decrypt_AES"]').text(res.data.ciphertext);
-
-                    }else{
-                        layer.msg('code: '+res.code+', message: '+res.message);
-                    }
-                },
-                error: function (res) {
-                    layer.msg('code: '+res.code+', message: '+res.message);
-                }
-            });
+            $keyElem = $('#aesKey');
+            $proElem = $('#encrypt_AES');
+            $cipElem = $('#decrypt_AES');
+            encrypt('[[@{/encrypt/aes}]]', $keyElem, $proElem, $cipElem);
             return false;
         });
 
-        //监听提交
+        //  AES解密
         form.on('submit(dec_info_aes)', function(data){
-            key = $('#aesKey').val();
-            ciptext = $('#decrypt_AES').text();
-            if(key == null || key == ''){layer.msg('密钥为空，请正确填写密钥！');return false;}
-            if(ciptext == null || ciptext == ''){layer.msg('密文内容未填写，请先添加密文内容！');return false;}
-            $.post({
-                url:'[[@{/decrypt/aes}]]',
-                data:{
-                    'key': $('#aesKey').val(),
-                    'ciptext': ciptext
-                },
-                dataType: 'json',
-                success: function (res) {
-                    if(res.code == code_seccuss){
+            $keyElem = $('#aesKey');
+            $proElem = $('#encrypt_AES');
+            $cipElem = $('#decrypt_AES');
+            decrypt('[[@{/decrypt/aes}]]', $keyElem, $proElem, $cipElem);
+            return false;
+        });
+        /*========================================================================================*/
 
-                        layer.msg('code: '+res.code+', message: '+res.message);
-                        $('textarea[name="encrypt_AES"]').text(res.data.ciphertext);
+        //  AES生成key
+        form.on('submit(gen_key_des)', function(data){
+            $keyElem = $('#desKey');
+            generateKey('[[@{/generatekey/des/}]]', 56, $keyElem);
+            return false;
+        });
 
-                    }else{
-                        layer.msg('code: '+res.code+', message: '+res.message);
-                    }
-                },
-                error: function (res) {
-                    layer.msg('code: '+res.code+', message: '+res.message);
-                }
-            });
+        //  AES加密
+        form.on('submit(enc_info_des)', function(data){
+            $keyElem = $('#desKey');
+            $proElem = $('#encrypt_DES');
+            $cipElem = $('#decrypt_DES');
+            encrypt('[[@{/encrypt/des}]]', $keyElem, $proElem, $cipElem);
+            return false;
+        });
+
+        //  AES解密
+        form.on('submit(dec_info_des)', function(data){
+            $keyElem = $('#desKey');
+            $proElem = $('#encrypt_DES');
+            $cipElem = $('#decrypt_DES');
+            decrypt('[[@{/decrypt/des}]]', $keyElem, $proElem, $cipElem);
             return false;
         });
     });
