@@ -1,7 +1,6 @@
 package com.example.demo.utils.algorithm;
 
 import org.bouncycastle.crypto.digests.*;
-import sun.security.provider.SHA;
 
 public class DigestUtils {
 

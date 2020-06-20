@@ -1,4 +1,4 @@
-//  AES生成key
+
 function generateKey(URL, length, keyElem){
     $.get({
         url:URL+length,

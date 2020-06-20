@@ -10,32 +10,41 @@
     <div class="layui-container">
         <div class="layui-col-sm12">
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                <legend>AES</legend>
+                <legend>SM2</legend>
             </fieldset>
             <div class="layui-col-sm12">
-                <form class="layui-form layui-form-pane" id="form_aes">
+                <form class="layui-form layui-form-pane" id="form_sm2">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">密钥：</label>
+                        <label class="layui-form-label">公钥：</label>
                         <div class="layui-input-block">
-                            <input type="text" id="aesKey" class="layui-input" name="key">
+                            <input type="text" id="sm2PublcKey" class="layui-input" name="sm2PublcKey">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">私钥：</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="sm2PrvateKey" class="layui-input" name="sm2PrvateKey">
                         </div>
                     </div>
                     <div class="layui-form-item layui-col-sm5 layui-col-sm-offset7">
-                        <input type="button" class="layui-btn" lay-submit lay-filter="gen_key_aes" value="生成密钥">
-                        <input type="reset" class="layui-btn" lay-submit lay-filter="eny_info_aes" value="加密信息">
-                        <input type="reset" class="layui-btn" lay-submit lay-filter="dey_info_aes" value="解密信息">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="gen_key_sm2" value="生成密钥">
+                        <input type="reset" class="layui-btn" lay-submit lay-filter="eny_info_sm2" value="加密信息">
+                        <input type="reset" class="layui-btn" lay-submit lay-filter="dey_info_sm2" value="解密信息">
                         <input type="reset" class="layui-btn" value="清空表单">
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">明文：</label>
                         <div class=" layui-col-sm12">
-                            <textarea class="layui-textarea" id="encode_AES" name=""></textarea>
+                            <textarea class="layui-textarea" id="encode_sm2" name="" rows="10">
+这是一段摘要示例明文：
+全书共十二章，讲述了关于宇宙本性的最前沿知识，包括：我们的宇宙图像、空间和时间、膨胀的宇宙、不确定性原理、黑洞、宇宙的起源和命运等内容，深入浅出地介绍了遥远星系、黑洞、粒子、反物质等知识，并对宇宙的起源、空间和时间以及相对论等古老命题进行了阐述。
+                            </textarea>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">密文：</label>
                         <div class=" layui-col-sm12">
-                            <textarea class="layui-textarea" id="decode_AES" name=""></textarea>
+                            <textarea class="layui-textarea" id="decode_sm2" name="" rows="10"></textarea>
                         </div>
                     </div>
                 </form>
@@ -43,32 +52,41 @@
         </div>
         <div>
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                <legend>DES</legend>
+                <legend>RSA</legend>
             </fieldset>
             <div class="layui-col-sm12">
-                <form class="layui-form layui-form-pane" id="form_des">
+                <form class="layui-form layui-form-pane" id="form_rsa">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">密钥：</label>
+                        <label class="layui-form-label">公钥：</label>
                         <div class="layui-input-block">
-                            <input type="text" id="desKey" class="layui-input" name="key">
+                            <input type="text" id="rsaPublicKey" class="layui-input" name="rsaPublicKey">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">私钥：</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="rsaPrivateKey" class="layui-input" name="rsaPrivateKey">
                         </div>
                     </div>
                     <div class="layui-form-item layui-col-sm5 layui-col-sm-offset7">
-                        <input type="button" class="layui-btn" lay-submit lay-filter="gen_key_aes" value="生成密钥">
-                        <input type="reset" class="layui-btn" lay-submit lay-filter="eny_info_aes" value="加密信息">
-                        <input type="reset" class="layui-btn" lay-submit lay-filter="dey_info_aes" value="解密信息">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="gen_key_rsa" value="生成密钥">
+                        <input type="reset" class="layui-btn" lay-submit lay-filter="eny_info_rsa" value="加密信息">
+                        <input type="reset" class="layui-btn" lay-submit lay-filter="dey_info_rsa" value="解密信息">
                         <input type="reset" class="layui-btn" value="清空表单">
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">明文：</label>
                         <div class=" layui-col-sm12">
-                            <textarea class="layui-textarea" id="encode_DES" name=""></textarea>
+                            <textarea class="layui-textarea" id="encode_rsa" name="" rows="10">
+这是一段摘要示例明文：
+全书共十二章，讲述了关于宇宙本性的最前沿知识，包括：我们的宇宙图像、空间和时间、膨胀的宇宙、不确定性原理、黑洞、宇宙的起源和命运等内容，深入浅出地介绍了遥远星系、黑洞、粒子、反物质等知识，并对宇宙的起源、空间和时间以及相对论等古老命题进行了阐述。
+                            </textarea>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">密文：</label>
                         <div class=" layui-col-sm12">
-                            <textarea class="layui-textarea" id="decode_DES" name=""></textarea>
+                            <textarea class="layui-textarea" id="decode_rsa" name="" rows="10"></textarea>
                         </div>
                     </div>
                 </form>
@@ -81,8 +99,38 @@
 <script type="text/javascript">
     var code_seccuss = 0, length;
     layui.use(['form','layer'], function () {
+        var code_seccuss = 0, $proElem, $cipElem;
         var form = layui.form,
             layer = layui.layer;
+
+        /*==================================================[ SM2 ]===================================================*/
+        //  SM2生成密钥对
+        form.on('submit(gen_key_sm2)',function(){
+            genenateKey('[[@{/generate/getkeypair/sm2/}]]'+new Date().valueOf());
+        });
+        //  SM2加密
+        form.on('submit(eny_info_sm2)',function(){
+
+        });
+        //  SM2解密
+        form.on('submit(dey_info_sm2)',function(){
+
+        });
+
+        /*==================================================[ RSA ]===================================================*/
+
+        //  SM2生成密钥对
+        form.on('submit(gen_key_sm2)',function(){
+
+        });
+        //  SM2加密
+        form.on('submit(eny_info_sm2)',function(){
+
+        });
+        //  SM2解密
+        form.on('submit(dey_info_sm2)',function(){
+
+        });
 
         //监听提交
         form.on('submit(aes)', function(data){

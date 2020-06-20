@@ -1,5 +1,7 @@
 package com.example.demo.utils.algorithm;
 
+import com.example.demo.bean.algorithm.AKeyPair;
+
 import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
@@ -12,7 +14,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.math.BigInteger;
 import java.security.KeyPair;
-import com.example.demo.bean.algorithm.MyKeyPair;
 
 import java.security.KeyPairGenerator;
 import java.security.SecureRandom;
@@ -49,9 +50,9 @@ public class KeyPairUtils {
         }
     }
 
-    public static MyKeyPair getSM2KeyPair(){
+    public static AKeyPair getSM2KeyPair(){
 
-        MyKeyPair keypair = new MyKeyPair();
+        AKeyPair keypair = new AKeyPair();
         try{
 
             // 获取SM2椭圆曲线的参数
@@ -80,9 +81,9 @@ public class KeyPairUtils {
         }
     }
 
-    public static MyKeyPair getRSAKeyPair() {
+    public static AKeyPair getRSAKeyPair() {
 
-        MyKeyPair keypair = new MyKeyPair();
+        AKeyPair keypair = new AKeyPair();
 
         try {
             //  创建keyPair生成器

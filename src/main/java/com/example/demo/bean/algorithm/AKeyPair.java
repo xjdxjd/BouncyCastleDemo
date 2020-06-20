@@ -1,13 +1,13 @@
 package com.example.demo.bean.algorithm;
 
-public class MyKeyPair {
+public class AKeyPair {
     private String priKey;
     private String pubKey;
 
-    public MyKeyPair() {
+    public AKeyPair() {
     }
 
-    public MyKeyPair(String priKey, String pubKey) {
+    public AKeyPair(String priKey, String pubKey) {
         this.priKey = priKey;
         this.pubKey = pubKey;
     }
