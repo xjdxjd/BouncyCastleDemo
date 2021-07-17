@@ -1,5 +1,6 @@
 package com.example.demo.controller.certificate;
 
+import com.alibaba.fastjson.JSON;
 import com.example.demo.bean.Result;
 import com.example.demo.bean.certificate.ICertificate;
 import com.example.demo.controller.BaseController;
@@ -24,20 +25,20 @@ public class CertificateController extends BaseController
     @ResponseBody
     public Result generateCertificate(@RequestParam("stdName") String stdName, @RequestParam("formData") String formData)
     {
-        String sss = "{\"issuerName\":\"DN=ROOTCA\",\"subjectName\":\"DN=TESTCA\",\"algorithm\":\"0\",\"notBeforeDate\":\"2020-04-05\",\"notAfterDate\":\"1\"}";
-        JSONPObject jsonpObject = JSON.parseObject(formData);
-        System.out.println("formData = " + formData);
-        System.out.println("certInfo = " + certInfo.toString());
-
-        ICertificate iCertificate = new ICertificate();
-        if (ALG_SM2.equals(stdName))
-        {
-            System.out.println("stdName = " + stdName);
-        }
-        else
-        {
-            System.out.println("stdName = " + stdName);
-        }
+//        String sss = "{\"issuerName\":\"DN=ROOTCA\",\"subjectName\":\"DN=TESTCA\",\"algorithm\":\"0\",\"notBeforeDate\":\"2020-04-05\",\"notAfterDate\":\"1\"}";
+//        JSONPObject jsonpObject = JSON.parseObject(formData);
+//        System.out.println("formData = " + formData);
+//        System.out.println("certInfo = " + certInfo.toString());
+//
+//        ICertificate iCertificate = new ICertificate();
+//        if (ALG_SM2.equals(stdName))
+//        {
+//            System.out.println("stdName = " + stdName);
+//        }
+//        else
+//        {
+//            System.out.println("stdName = " + stdName);
+//        }
 
         return result.success();
     }

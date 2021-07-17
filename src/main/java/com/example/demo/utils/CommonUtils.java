@@ -1,9 +1,13 @@
 package com.example.demo.utils;
+/*
 
+//  java 1.8
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
+*/
 
 import javax.crypto.spec.IvParameterSpec;
+import java.beans.Encoder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.AlgorithmParameters;
@@ -11,9 +15,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidParameterSpecException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Base64;
+//import java.util.Base64.Encoder;
 import java.util.Date;
 
 public class CommonUtils {
+    private static final Base64.Encoder encoder = Base64.getEncoder();
+    private static final Base64.Decoder decoder = Base64.getDecoder();
 
     /**
      * 获取时间戳
@@ -43,7 +51,7 @@ public class CommonUtils {
      * 解码返回byte
      */
     public static byte[] decryptBASE64(String key) throws Exception {
-        return (new BASE64Decoder()).decodeBuffer(key);
+        return decoder.decode(key);
     }
 
 
@@ -51,7 +59,7 @@ public class CommonUtils {
      * 编码返回字符串
      */
     public static String encryptBASE64(byte[] key) throws Exception {
-        return (new BASE64Encoder()).encodeBuffer(key);
+        return encoder.encodeToString(key);
     }
 
     /**
