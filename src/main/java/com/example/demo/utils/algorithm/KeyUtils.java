@@ -30,17 +30,7 @@ public class KeyUtils {
     public static SymmKeyResult generateKey( int length,String algName) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 
         SymmKeyResult symmKey = null;
-        //  创建密钥生成器
-        KeyGenerator keyGenerate = KeyGenerator.getInstance(algName);
-        //  初始化密钥声生成器
-        keyGenerate.init(length);
-        //  生成密钥
-        SecretKey secretKey = keyGenerate.generateKey();
-        //  密钥转码    byte[] --> 16进制字符串
-        byte[] keybytes = secretKey.getEncoded();
-        String key = new Base64().toBase64String(keybytes);
 
-        symmKey = new SymmKeyResult(key,secretKey);
         return symmKey;
     }
 

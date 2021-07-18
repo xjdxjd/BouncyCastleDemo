@@ -59,3 +59,18 @@ function loadCrlParse(pageName){
 	$('#content').attr('src','/crlParse');
 };
 
+function loadSM2(pageName){
+	$('#presentPage').text(pageName);
+	$('#content').attr('src','/SM2');
+};
+
+function loadSM3(pageName){
+	$('#presentPage').text(pageName);
+	$('#content').attr('src','/SM3');
+};
+
+function loadSM4(pageName){
+	$('#presentPage').text(pageName);
+	$('#content').attr('src','/SM4');
+};
+

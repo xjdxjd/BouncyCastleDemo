@@ -45,6 +45,20 @@ public class MainController extends BaseController {
         return ALGORITHM_PATH+"asymmkey_encanddec";
     }
 
+    @GetMapping("SM2")
+    public String toSM2(){
+        return ALGORITHM_PATH+"SM2";
+    }
+    @GetMapping("SM3")
+    public String toSM3(){
+        return ALGORITHM_PATH+"SM3";
+    }
+    @GetMapping("SM4")
+    public String toSM4(){
+        return ALGORITHM_PATH+"SM4";
+    }
+
+
 
     @GetMapping("certGenerate")
     public String toCertGenerate(){
@@ -75,5 +89,4 @@ public class MainController extends BaseController {
     public String toCrlParse(){
         return CERTIFICATE_PATH+"crl_parse";
     }
-
 }

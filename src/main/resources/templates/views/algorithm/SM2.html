@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SM2</title>
+    <link rel="shortcut icon" href="favicon.ico" th:href="@{/favicon.ico}">
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css" th:href="@{/webjars/layui/2.5.6/css/layui.css}"/>
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-col-sm12">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>SM2</legend>
+        </fieldset>
+        <div class="layui-col-sm12">
+            <form class="layui-form layui-form-pane" id="form_sm2">
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">明文</label>
+                    <div class="layui-input-block">
+                        <textarea id="plaintext" name="plaintext" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-col-sm3 layui-col-sm-offset9">
+                        <div class="layui-btn-container">
+                            <button class="layui-btn" layui-submit layui-filter="encrypted-plaintext">加密明文</button>
+                            <button class="layui-btn" layui-clear>清除数据</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="layui-col-sm12 layui-form-pane">
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">密文</label>
+            <div class="layui-input-block">
+                <textarea id="ciphertext" name="ciphertext" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">ID</label>
+            <div class="layui-input-block">
+                <input id="id" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">签名</label>
+            <div class="layui-input-block">
+                <input id="sign" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">椭圆曲线点 X</label>
+            <div class="layui-input-block">
+                <input id="ECCpoint_X" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">椭圆曲线点 Y</label>
+            <div class="layui-input-block">
+                <input id="ECCpoint_Y" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">SM3摘要值</label>
+            <div class="layui-input-block">
+                <input id="sm_sign" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+
+    <!--
+                <div class="layui-form-item">
+                    <div class=" layui-col-sm6">
+                        <select name="length" lay-verify="" lay-search="">
+                            <option value="128" selected>生成128位密钥</option>
+                            <option value="192">生成192位密钥</option>
+                            <option value="256">生成256位密钥</option>
+                        </select>
+                    </div>
+                    <div class="layui-col-sm5 layui-col-sm-offset1">
+                        <input type="button" class="layui-btn" lay-submit lay-filter="aes" value="生成密钥">
+                        <input type="reset" class="layui-btn" value="清空密钥">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                </div>
+                -->
+</div>
+<script type="text/javascript" src="js/jquery-3.4.0.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
+<script type="text/javascript" src="layui/layui.js" th:src="@{/webjars/layui/2.5.6/layui.js}"></script>
+<script type="text/javascript">
+    var code_seccuss = 0, length;
+
+    var plaintext = "这是一段摘要示例明文：" +
+        "全书共十二章，讲述了关于宇宙本性的最前沿知识，" +
+        "包括：我们的宇宙图像、空间和时间、膨胀的宇宙、不确定性原理、黑洞、宇宙的起源和命运等内容，" +
+        "深入浅出地介绍了遥远星系、黑洞、粒子、反物质等知识，并对宇宙的起源、空间和时间以及相对论等古老命题进行了阐述。";
+
+    $('#plaintext').val(plaintext);
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form,
+            layer = layui.layer;
+
+        //监听提交
+        form.on('submit(encrypted-plaintext)', function (data) {
+            $.post({
+                url: '[[@{/sm2/aes}]]/',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    if (res.code == code_seccuss) {
+                        layer.msg('code: ' + res.code + ', message: ' + res.message);
+                        $('#keyData_AES').text(res.data.key);
+                    } else {
+                        layer.msg('code: ' + res.code + ', message: ' + res.message);
+                    }
+                },
+                error: function (res) {
+                    layer.msg('code: ' + res.code + ', message: ' + res.message);
+                }
+            });
+            return false;
+        });
+    });
+
+    function setInput(data){
+
+    }
+</script>
+</body>
+</html>

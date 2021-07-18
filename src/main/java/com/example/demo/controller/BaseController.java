@@ -4,8 +4,12 @@ import com.example.demo.bean.Result;
 
 import java.io.UnsupportedEncodingException;
 import java.security.spec.InvalidParameterSpecException;
+import java.util.Base64;
 
 public class BaseController {
+
+    //  编码
+    protected static final String CHARSET_UTF8 = "UTF-8";
 
     public Result result = new Result();
 
