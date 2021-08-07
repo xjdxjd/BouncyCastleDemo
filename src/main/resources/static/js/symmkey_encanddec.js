@@ -1,7 +1,7 @@
 
-function generateKey(URL, length, keyElem){
+function generateKey(URL, keyElem){
     $.get({
-        url:URL+length,
+        url:URL,
         dataType: 'json',
         success: function (res) {
             if(res.code == code_seccuss){
@@ -29,7 +29,6 @@ function encrypt(URL, keyElem, proElem, cipElem){
         dataType: 'json',
         success: function (res) {
             if(res.code == code_seccuss){
-
                 layer.msg('code: '+res.code+', message: '+res.message);
                 cipElem.val(res.data.ciphertext);
 

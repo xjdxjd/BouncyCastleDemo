@@ -8,6 +8,59 @@
 </head>
 <body>
     <div class="layui-container">
+        <div>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>DES</legend>
+            </fieldset>
+            <div class="layui-col-sm12">
+                <form class="layui-form" id="form_des">
+                    <div class="layui-form-item">
+                        <div class=" layui-col-sm12">
+                            <input type="button" class="layui-btn" lay-submit lay-filter="des" value="生成密钥">
+                            <input type="reset" class="layui-btn" value="清空密钥">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class=" layui-col-sm12">
+                            <textarea class="layui-textarea" id="keyData_DES" name=""></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-col-sm12" >
+                <pre class="layui-code">
+/**
+ * @Method: generateKeyForDES   DESC:   生成DES密钥
+ */
+@GetMapping("/generatekey/des/{length}")
+public Result generateKeyForDES(@PathVariable("length") int length){
+    SymmKeyResult symmKey = new SymmKeyResult();
+    try {
+        //  添加密码模块BC包支持
+        Security.addProvider(new BouncyCastleProvider());
+
+        //  初始化密钥生成器
+        KeyGenerator keyGenerator = KeyGenerator.getInstance(Constants.ALGORITHM_DES, Constants.PACKAGE_BC);
+        keyGenerator.getProvider();
+        keyGenerator.init(length);
+
+        //  获取密钥
+        SecretKey secretKey = keyGenerator.generateKey();
+        byte[] encoded = secretKey.getEncoded();
+
+        //  转换为Base64字符串
+        String desKey = Base64.toBase64String(encoded);
+        symmKey.setKey(desKey);
+
+        return result.success(symmKey);
+    } catch (Exception ex){
+        ex.printStackTrace();
+        return result.failed(ex.getMessage());
+    }
+}
+                </pre>
+            </div>
+        </div>
         <div class="layui-col-sm12">
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
                 <legend>AES</legend>
@@ -15,14 +68,7 @@
             <div class="layui-col-sm12">
                 <form class="layui-form" id="form_aes">
                     <div class="layui-form-item">
-                        <div class=" layui-col-sm6">
-                            <select name="length" lay-verify="" lay-search="">
-                                <option value="128" selected>生成128位密钥</option>
-                                <option value="192">生成192位密钥</option>
-                                <option value="256">生成256位密钥</option>
-                            </select>
-                        </div>
-                        <div class="layui-col-sm5 layui-col-sm-offset1">
+                        <div class=" layui-col-sm12">
                             <input type="button" class="layui-btn" lay-submit lay-filter="aes" value="生成密钥">
                             <input type="reset" class="layui-btn" value="清空密钥">
                         </div>
@@ -34,30 +80,42 @@
                     </div>
                 </form>
             </div>
-        </div>
-        <div>
-            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                <legend>DES</legend>
-            </fieldset>
-            <div class="layui-col-sm12">
-                <form class="layui-form" id="form_des">
-                    <div class="layui-form-item">
-                        <div class=" layui-col-sm6">
-                            <select name="length" lay-verify="" lay-search="">
-                                <option value="56" selected>生成56位密钥</option>
-                            </select>
-                        </div>
-                        <div class="layui-col-sm5 layui-col-sm-offset1">
-                            <input type="button" class="layui-btn" lay-submit lay-filter="des" value="生成密钥">
-                            <input type="reset" class="layui-btn" value="清空密钥">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <div class=" layui-col-sm12">
-                            <textarea class="layui-textarea" id="keyData_DES" name=""></textarea>
-                        </div>
-                    </div>
-                </form>
+            <div class="layui-col-sm12" >
+                <pre class="layui-code">
+/**
+ * @Method: generateKeyForAES   DESC:   生成AES密钥
+ */
+@GetMapping("/generatekey/aes/{length}")
+public Result generateKeyForAES(@PathVariable("length") int length){
+    SymmKeyResult symmKey = new SymmKeyResult();
+    try {
+        //  添加密码模块BC包支持
+        Security.addProvider(new BouncyCastleProvider());
+
+        //  初始化密钥生成器
+        KeyGenerator keyGenerator = KeyGenerator.getInstance(Constants.ALGORITHM_AES, Constants.PACKAGE_BC);
+        keyGenerator.getProvider();
+        keyGenerator.init(length);
+        //  创建密钥生成器
+        KeyGenerator keyGenerate = KeyGenerator.getInstance(ALGORITHM_AES);
+        //  初始化密钥声生成器
+        keyGenerate.init(length);
+
+        //  获取密钥
+        SecretKey secretKey = keyGenerator.generateKey();
+        byte[] encoded = secretKey.getEncoded();
+
+        //  转换为Base64字符串
+        String desKey = Base64.toBase64String(encoded);
+        symmKey.setKey(desKey);
+
+        return result.success(symmKey);
+    } catch (Exception ex){
+        ex.printStackTrace();
+        return result.error();
+    }
+}
+                </pre>
             </div>
         </div>
     </div>
@@ -72,9 +130,8 @@
 
         //监听提交
         form.on('submit(aes)', function(data){
-            length = $('#form_aes').find($('select[name="length"]')).val();
             $.get({
-                url:'[[@{/generatekey/aes}]]/'+length,
+                url:'[[@{/generatekey/aes}]]',
                 dataType: 'json',
                 success: function (res) {
                     if(res.code == code_seccuss){
@@ -93,9 +150,8 @@
 
         //监听提交
         form.on('submit(des)', function(data){
-            length = $('#form_des').find($('select[name="length"]')).val();
             $.get({
-                url:'[[@{/generatekey/des}]]/'+length,
+                url:'[[@{/generatekey/des}]]',
                 dataType: 'json',
                 success: function (res) {
                     if(res.code == code_seccuss){
@@ -111,6 +167,9 @@
             });
             return false;
         });
+
     });
+
+    $('input[type = reset]').click( function () { $(this).parents(".layui-form").find('textarea').text(''); });
 </script>
 </html>
